@@ -8,7 +8,7 @@ var model = {
 
 var api = {
   root: "https://api.themoviedb.org/3",
-  token: "TODO" // TODO 0 put your api key here
+  token: "35c2ef01bdb717d62c19457d7f26af46" // TODO 0 put your api key here
 }
 
 
@@ -25,13 +25,15 @@ function discoverMovies(callback) {
 		},
 		success: function(response) {
 			console.log("We got a response from The Movie DB!");
-			console.log(response);
+			//console.log(response);
 			
 			// TODO 2
 			// update the model, setting its .browseItems property equal to the movies we recieved in the response
 			
+			model.browseItems = response.results;
+			
 			// invoke the callback function that was passed in. 
-			callback();
+			callback(response);
 		}
 	});
   
@@ -44,20 +46,36 @@ function discoverMovies(callback) {
 function render() {
   // TODO 7
   // clear everything from both lists
+  var watchlistElement = $("#section-watchlist ul");
+  var browseElement = $("#section-browse ul");
+  
+  watchlistElement.empty();
+  browseElement.empty();
   
   // TODO 6
   // for each movie on the user's watchlist, insert a list item into the <ul> in the watchlist section
+  model.watchlistItems.forEach(function(movie) {
+	  var title = $("<p></p>").text(movie.original_title);
+	  var itemView = $("<li></li>").append(title);
+	  watchlistElement.append(itemView);
+  });
   
   // for each movie on the current browse list, 
   model.browseItems.forEach(function(movie) {
 		// TODO 3
 		// insert a list item into the <ul> in the browse section
-		
+		var title = $("<p></p>").text(movie.original_title);
 		// TODO 4
 		// the list item should include a button that says "Add to Watchlist"
-		
+		var myButton = $("<button></button>").text("Add to Watchlist");
 		// TODO 5
 		// when the button is clicked, this movie should be added to the model's watchlist and render() should be called again
+		myButton.click(function() {
+			model.watchlistItems.push(movie);
+			render();
+		});
+		var itemView = $("<li></li>").append(title).append(myButton);
+		browseElement.append(itemView);
   });
   
 }
