@@ -86,7 +86,6 @@ function render() {
 
   // clear everything
   $("#section-watchlist ul").empty();
-  $("#section-browse ul").empty();
   $("#section-browse .carousel-inner").empty();
 
   // render watchlist items
@@ -127,27 +126,6 @@ function render() {
   });
 
   // render browse items
-//  model.browseItems.forEach(function(movie) {
-//    var title = $("<h4></h4>").text(movie.original_title);
-//    var overview = $("<p></p>").text(movie.overview);
-//
-//    // button for adding to watchlist
-//    var button = $("<button></button>")
-//      .text("Add to Watchlist")
-//      .attr("class", "btn btn-primary")
-//      .click(function() {
-//        model.watchlistItems.push(movie);
-//        render();
-//      })
-//      .prop("disabled", model.watchlistItems.indexOf(movie) !== -1);
-//
-//    var itemView = $("<li></li>")
-//      .attr("class", "list-group-item")
-//      .append( [title, overview, button] );
-//      
-//    // append the itemView to the list
-//    $("#section-browse ul").append(itemView);
-//  });
 
 	var activeMovie = model.browseItems[model.activeMovieIndex];
 	
@@ -156,6 +134,7 @@ function render() {
 	
 	$("#add-to-watchlist")
 		.attr("class", "btn btn-primary")
+		.unbind("click") //if we don't do this, will populate a bunch of movies we don't want!
 		.click(function() {
 			model.watchlistItems.push(activeMovie);
 			render();
@@ -184,3 +163,27 @@ function render() {
 $(document).ready(function() {
   discoverMovies(render);
 });
+
+
+// old render
+//  model.browseItems.forEach(function(movie) {
+//    var title = $("<h4></h4>").text(movie.original_title);
+//    var overview = $("<p></p>").text(movie.overview);
+//
+//    // button for adding to watchlist
+//    var button = $("<button></button>")
+//      .text("Add to Watchlist")
+//      .attr("class", "btn btn-primary")
+//      .click(function() {
+//        model.watchlistItems.push(movie);
+//        render();
+//      })
+//      .prop("disabled", model.watchlistItems.indexOf(movie) !== -1);
+//
+//    var itemView = $("<li></li>")
+//      .attr("class", "list-group-item")
+//      .append( [title, overview, button] );
+//      
+//    // append the itemView to the list
+//    $("#section-browse ul").append(itemView);
+//  });
